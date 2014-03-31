@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.everit.osgi.authentication.simple.tests.core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.everit.osgi.authentication.simple.tests;
+package org.everit.osgi.authentication.simple.tests.core;
 
 import java.io.IOException;
 import java.util.Dictionary;

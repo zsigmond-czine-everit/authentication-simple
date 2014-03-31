@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.everit.osgi.authentication.simple.tests.core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.everit.osgi.authentication.simple.tests;
+package org.everit.osgi.authentication.simple.tests.core;
 
 import java.sql.SQLException;
 import java.util.UUID;
@@ -30,7 +30,6 @@ import org.everit.osgi.authentication.simple.core.CredentialService;
 import org.everit.osgi.authentication.simple.core.SimpleSubject;
 import org.everit.osgi.authentication.simple.core.SimpleSubjectService;
 import org.everit.osgi.authentication.simple.schema.Validation;
-import org.everit.osgi.dev.testrunner.TestDuringDevelopment;
 import org.everit.osgi.dev.testrunner.TestRunnerConstants;
 import org.everit.osgi.resource.api.ResourceService;
 import org.junit.Assert;
@@ -42,13 +41,12 @@ import org.junit.Test;
         @Property(name = TestRunnerConstants.SERVICE_PROPERTY_TESTRUNNER_ENGINE_TYPE, value = "junit4"),
         @Property(name = TestRunnerConstants.SERVICE_PROPERTY_TEST_ID,
                 value = SimpleAuthenticationTestConstants.TEST_ID),
-        @Property(name = SimpleAuthenticationTestConstants.PROP_ACTIVATION_SERVICE),
-        @Property(name = SimpleAuthenticationTestConstants.PROP_CREDENTIAL_SERVICE),
-        @Property(name = SimpleAuthenticationTestConstants.PROP_SIMPLE_SUBJECT_SERVICE),
-        @Property(name = SimpleAuthenticationTestConstants.PROP_RESOURCE_SERVICE)
+        @Property(name = SimpleAuthenticationTestConstants.PROP_ACTIVATION_SERVICE_TARGET),
+        @Property(name = SimpleAuthenticationTestConstants.PROP_CREDENTIAL_SERVICE_TARGET),
+        @Property(name = SimpleAuthenticationTestConstants.PROP_SIMPLE_SUBJECT_SERVICE_TARGET),
+        @Property(name = SimpleAuthenticationTestConstants.PROP_RESOURCE_SERVICE_TARGET)
 })
 @Service(value = SimpleAuthenticationTestComponent.class)
-@TestDuringDevelopment
 public class SimpleAuthenticationTestComponent {
 
     private static final String LONG_STRING =

@@ -14,8 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.everit.osgi.authentication.simple.tests.core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.everit.osgi.authentication.simple.tests;
-
+package org.everit.osgi.authentication.simple.tests.core;
 
 public class CredentialEncryptorTestConstants {
 
@@ -23,7 +22,7 @@ public class CredentialEncryptorTestConstants {
 
     public static final String TEST_ID = COMPONENT_NAME;
 
-    public static final String PROP_CREDENTIAL_ENCRYPTOR = "credentialEncryptor.target";
+    public static final String PROP_CREDENTIAL_ENCRYPTOR_TARGET = "credentialEncryptor.target";
 
     private CredentialEncryptorTestConstants() {
     }
