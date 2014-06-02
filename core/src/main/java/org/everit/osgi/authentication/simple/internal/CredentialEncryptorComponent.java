@@ -40,6 +40,8 @@ import org.osgi.service.cm.ConfigurationException;
                 value = CredentialEncryptorConstants.DEFAULT_ALGORITHM)
 })
 @Service
+// FIXME credential encryption should be changed as in org.everit.authentication 0.6.0-SNAPSHOT (PBKDF2)
+// the only one property should be the iteration count
 public class CredentialEncryptorComponent implements CredentialEncryptor {
 
     private static final String PLAIN = "{plain}";
