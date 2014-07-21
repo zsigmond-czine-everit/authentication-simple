@@ -17,29 +17,27 @@
 package org.everit.osgi.authentication.simple;
 
 /**
- * Constants of the Simple Subject Manager component.
+ * Constants of the Authentication Simple component.
  */
-public final class SimpleSubjectManagerConstants {
+public final class AuthenticationSimpleConstants {
 
     /**
-     * The service factory PID of the Simple Subject Manager component.
+     * The service factory PID of the Authentication Simple component.
      */
-    public static final String SERVICE_FACTORYPID_SIMPLE_SUBJECT_MANAGER =
-            "org.everit.osgi.authentication.simple.SimpleSubjectManager";
+    public static final String SERVICE_FACTORYPID_AUTHENTICATION_SIMPLE =
+            "org.everit.osgi.authentication.simple.AuthenticationSimple";
 
     /**
-     * The property name of the OSGi filter expression defining which QuerydslSupport should be used by the Simple
-     * Subject Manager component.
+     * The property name of the OSGi filter expression defining which QuerydslSupport should be used.
      */
     public static final String PROP_QUERYDSL_SUPPORT = "querydslSupport.target";
 
     /**
-     * The property name of the OSGi filter expression defining which CredentialEncryptor should be used by the Simple
-     * Subject Manager component.
+     * The property name of the OSGi filter expression defining which CredentialEncryptor should be used.
      */
     public static final String PROP_CREDENTIAL_ENCRYPTOR = "credentialEncryptor.target";
 
-    private SimpleSubjectManagerConstants() {
+    private AuthenticationSimpleConstants() {
     }
 
 }

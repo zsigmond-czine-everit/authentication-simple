@@ -22,12 +22,14 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.everit.osgi.authentication.simple.AuthenticationSimpleConstants;
 import org.everit.osgi.authentication.simple.SimpleSubject;
 import org.everit.osgi.authentication.simple.SimpleSubjectManager;
-import org.everit.osgi.authentication.simple.SimpleSubjectManagerConstants;
 import org.everit.osgi.authentication.simple.schema.qdsl.QSimpleSubject;
+import org.everit.osgi.authenticator.Authenticator;
 import org.everit.osgi.credential.encryptor.CredentialEncryptor;
 import org.everit.osgi.querydsl.support.QuerydslSupport;
+import org.everit.osgi.resource.resolver.ResourceIdResolver;
 
 import com.mysema.query.sql.SQLQuery;
 import com.mysema.query.sql.dml.SQLDeleteClause;
@@ -35,20 +37,30 @@ import com.mysema.query.sql.dml.SQLInsertClause;
 import com.mysema.query.sql.dml.SQLUpdateClause;
 import com.mysema.query.types.ConstructorExpression;
 
-@Component(name = SimpleSubjectManagerConstants.SERVICE_FACTORYPID_SIMPLE_SUBJECT_MANAGER, metatype = true,
+@Component(name = AuthenticationSimpleConstants.SERVICE_FACTORYPID_AUTHENTICATION_SIMPLE, metatype = true,
         configurationFactory = true, policy = ConfigurationPolicy.REQUIRE)
 @Properties({
-        @Property(name = SimpleSubjectManagerConstants.PROP_QUERYDSL_SUPPORT),
-        @Property(name = SimpleSubjectManagerConstants.PROP_CREDENTIAL_ENCRYPTOR)
+        @Property(name = AuthenticationSimpleConstants.PROP_QUERYDSL_SUPPORT),
+        @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR)
 })
 @Service
-public class SimpleSubjectManagerComponent implements SimpleSubjectManager {
+public class AuthenticationSimpleComponent implements SimpleSubjectManager, Authenticator, ResourceIdResolver {
 
     @Reference(bind = "setQuerydslSupport")
     private QuerydslSupport querydslSupport;
 
     @Reference(bind = "setCredentialEncryptor")
     private CredentialEncryptor credentialEncryptor;
+
+    @Override
+    public String authenticate(final String principal, final String credential) {
+        String encryptedCredential = readEncryptedCredential(principal);
+        if (encryptedCredential == null) {
+            return null;
+        }
+        boolean match = credentialEncryptor.matchCredentials(credential, encryptedCredential);
+        return (match) ? principal : null;
+    }
 
     @Override
     public SimpleSubject create(final long resourceId, final String principal, final String plainCredential) {
@@ -75,6 +87,17 @@ public class SimpleSubjectManagerComponent implements SimpleSubjectManager {
                     .execute();
         });
         return deleteCount > 0;
+    }
+
+    @Override
+    public Long getResourceId(final String principal) {
+        return querydslSupport.execute((connection, configuration) -> {
+            QSimpleSubject qSimpleSubject = QSimpleSubject.simpleSubject;
+            return new SQLQuery(connection, configuration)
+                    .from(qSimpleSubject)
+                    .where(qSimpleSubject.principal.eq(principal))
+                    .singleResult(qSimpleSubject.resourceId);
+        });
     }
 
     @Override

@@ -25,10 +25,11 @@ import org.apache.felix.scr.annotations.Service;
 import org.everit.osgi.authentication.simple.SimpleSubject;
 import org.everit.osgi.authentication.simple.SimpleSubjectManager;
 import org.everit.osgi.authentication.simple.schema.qdsl.QSimpleSubject;
-import org.everit.osgi.dev.testrunner.TestDuringDevelopment;
+import org.everit.osgi.authenticator.Authenticator;
 import org.everit.osgi.dev.testrunner.TestRunnerConstants;
 import org.everit.osgi.querydsl.support.QuerydslSupport;
 import org.everit.osgi.resource.ResourceService;
+import org.everit.osgi.resource.resolver.ResourceIdResolver;
 import org.everit.osgi.transaction.helper.api.TransactionHelper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,12 +42,20 @@ import com.mysema.query.sql.dml.SQLDeleteClause;
         @Property(name = TestRunnerConstants.SERVICE_PROPERTY_TESTRUNNER_ENGINE_TYPE, value = "junit4"),
         @Property(name = TestRunnerConstants.SERVICE_PROPERTY_TEST_ID, value = "SimpleSubjectManagerTest"),
         @Property(name = "simpleSubjectManager.target"),
+        @Property(name = "authenticator.target"),
+        @Property(name = "resourceIdResolver.target"),
         @Property(name = "resourceService.target"),
         @Property(name = "transactionHelper.target"),
         @Property(name = "querydslSupport.target")
 })
-@Service(value = SimpleSubjectManagerTestComponent.class)
-public class SimpleSubjectManagerTestComponent {
+@Service(value = AuthenticationSimpleTestComponent.class)
+public class AuthenticationSimpleTestComponent {
+
+    @Reference(bind = "setAuthenticator")
+    private Authenticator authenticator;
+
+    @Reference(bind = "setResourceIdResolver")
+    private ResourceIdResolver resourceIdResolver;
 
     @Reference(bind = "setSimpleSubjectManager")
     private SimpleSubjectManager simpleSubjectManager;
@@ -79,8 +88,16 @@ public class SimpleSubjectManagerTestComponent {
         });
     }
 
+    public void setAuthenticator(final Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
     public void setQuerydslSupport(final QuerydslSupport querydslSupport) {
         this.querydslSupport = querydslSupport;
+    }
+
+    public void setResourceIdResolver(final ResourceIdResolver resourceIdResolver) {
+        this.resourceIdResolver = resourceIdResolver;
     }
 
     public void setResourceService(final ResourceService resourceService) {
@@ -96,8 +113,28 @@ public class SimpleSubjectManagerTestComponent {
     }
 
     @Test
-    @TestDuringDevelopment
-    public void testCRUD() {
+    public void testAuthenticator() {
+        deleteAllSimpleSubjects();
+        String principal = "principal";
+        String plainCredential = "credential";
+        createWithResource(principal, plainCredential);
+
+        Assert.assertEquals(principal, authenticator.authenticate(principal, plainCredential));
+        Assert.assertNull(authenticator.authenticate(principal, plainCredential + plainCredential));
+        Assert.assertNull(authenticator.authenticate(principal, null));
+
+        String newPlainCredential = "credential_new";
+        simpleSubjectManager.updateCredential(principal, newPlainCredential);
+
+        Assert.assertEquals(principal, authenticator.authenticate(principal, newPlainCredential));
+        Assert.assertNull(authenticator.authenticate(principal, plainCredential));
+
+        Assert.assertNull(authenticator.authenticate(principal + principal, newPlainCredential));
+
+    }
+
+    @Test
+    public void testManager() {
         deleteAllSimpleSubjects();
         String principal = "principal";
         String plainCredential = "credential";
@@ -135,6 +172,17 @@ public class SimpleSubjectManagerTestComponent {
         Assert.assertFalse(simpleSubjectManager.delete(principal));
         Assert.assertTrue(simpleSubjectManager.delete(newPrincipal));
         Assert.assertFalse(simpleSubjectManager.delete(newPrincipal));
+    }
+
+    @Test
+    public void testResourceIdResolver() {
+        deleteAllSimpleSubjects();
+        String principal = "principal";
+        String plainCredential = "credential";
+        SimpleSubject simpleSubject = createWithResource(principal, plainCredential);
+
+        Assert.assertEquals(simpleSubject.getResourceId(), resourceIdResolver.getResourceId(principal).longValue());
+        Assert.assertNull(resourceIdResolver.getResourceId(principal + principal));
     }
 
 }
