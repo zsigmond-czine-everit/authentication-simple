@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    This file is part of org.everit.osgi.authentication.simple.schema.
+    This file is part of Everit - Authentication Simple Schema QDSL.
 
-    org.everit.osgi.authentication.simple.schema is free software: you can redistribute it and/or modify
+    Everit - Authentication Simple Schema QDSL is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    org.everit.osgi.authentication.simple.schema is distributed in the hope that it will be useful,
+    Everit - Authentication Simple Schema QDSL is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Lesser General Public License for more details.
 
     You should have received a copy of the GNU Lesser General Public License
-    along with org.everit.osgi.authentication.simple.schema.  If not, see <http://www.gnu.org/licenses/>.
+    along with Everit - Authentication Simple Schema QDSL.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 <databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS" logicalFilePath="org.everit.osgi.authentication.simple" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
@@ -22,7 +22,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<include file="eosgi:org.everit.osgi.resource" />
+	<include file="eosgi:org.everit.osgi.resource.ri" />
 
 	<changeSet id="1.0.0" author="everit">
 
@@ -30,14 +30,11 @@
 			<column name="simple_subject_id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="principal" type="java.sql.Types.VARCHAR(255)">
+			<column name="principal" type="java.sql.Types.VARCHAR(256)">
 				<constraints unique="true" nullable="false" />
 			</column>
-			<column name="credential" type="java.sql.Types.VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="active" type="BOOLEAN">
-				<constraints nullable="false" />
+			<column name="encrypted_credential" type="java.sql.Types.VARCHAR(256)">
+				<constraints nullable="true" />
 			</column>
 			<column name="resource_id" type="bigint">
 				<constraints nullable="false" />

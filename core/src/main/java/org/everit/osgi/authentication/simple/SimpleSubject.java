@@ -1,39 +1,52 @@
 /**
- * This file is part of org.everit.osgi.authentication.simple.
+ * This file is part of Everit - Authentication Simple.
  *
- * org.everit.osgi.authentication.simple is free software: you can redistribute it and/or modify
+ * Everit - Authentication Simple is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * org.everit.osgi.authentication.simple is distributed in the hope that it will be useful,
+ * Everit - Authentication Simple is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with org.everit.osgi.authentication.simple.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Everit - Authentication Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.everit.osgi.authentication.simple;
 
-import org.everit.osgi.authentication.api.Subject;
+/**
+ * A principal and credential based subject assigned to a resource. This can be a base of a user in a system.
+ */
+public class SimpleSubject {
 
-public class SimpleSubject implements Subject {
-
+    /**
+     * The ID of the simple subject.
+     */
     private final long simpleSubjectId;
 
+    /**
+     * The unique principal of the simple subject. For e.g. user name, email address.
+     */
     private final String principal;
 
-    private final boolean active;
-
+    /**
+     * The resource ID assigned to the simple subject.
+     */
     private final long resourceId;
 
-    public SimpleSubject(final long simpleSubjectId, final String principal, final boolean active,
-            final long resourceId) {
+    /**
+     * Constructor.
+     * 
+     * @param simpleSubjectId
+     * @param principal
+     * @param resourceId
+     */
+    public SimpleSubject(final long simpleSubjectId, final String principal, final long resourceId) {
         super();
         this.simpleSubjectId = simpleSubjectId;
         this.principal = principal;
-        this.active = active;
         this.resourceId = resourceId;
     }
 
@@ -49,9 +62,6 @@ public class SimpleSubject implements Subject {
             return false;
         }
         SimpleSubject other = (SimpleSubject) obj;
-        if (active != other.active) {
-            return false;
-        }
         if (principal == null) {
             if (other.principal != null) {
                 return false;
@@ -72,7 +82,6 @@ public class SimpleSubject implements Subject {
         return principal;
     }
 
-    @Override
     public long getResourceId() {
         return resourceId;
     }
@@ -85,21 +94,16 @@ public class SimpleSubject implements Subject {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = (prime * result) + (active ? 1231 : 1237);
         result = (prime * result) + ((principal == null) ? 0 : principal.hashCode());
         result = (prime * result) + (int) (resourceId ^ (resourceId >>> 32));
         result = (prime * result) + (int) (simpleSubjectId ^ (simpleSubjectId >>> 32));
         return result;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     @Override
     public String toString() {
-        return "SimpleSubject [simpleSubjectId=" + simpleSubjectId + ", principal=" + principal + ", active=" + active
-                + ", resourceId=" + resourceId + "]";
+        return "SimpleSubject [simpleSubjectId=" + simpleSubjectId + ", principal=" + principal + ", resourceId="
+                + resourceId + "]";
     }
 
 }
