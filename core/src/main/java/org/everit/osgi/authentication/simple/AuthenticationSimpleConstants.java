@@ -37,6 +37,11 @@ public final class AuthenticationSimpleConstants {
      */
     public static final String PROP_CREDENTIAL_ENCRYPTOR = "credentialEncryptor.target";
 
+    /**
+     * The property name of the OSGi filter expression defining which LogService should be used.
+     */
+    public static final String PROP_LOG_SERVICE = "logService.target";
+
     private AuthenticationSimpleConstants() {
     }
 

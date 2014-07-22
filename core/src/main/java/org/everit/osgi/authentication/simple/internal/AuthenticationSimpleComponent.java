@@ -30,6 +30,7 @@ import org.everit.osgi.authenticator.Authenticator;
 import org.everit.osgi.credential.encryptor.CredentialEncryptor;
 import org.everit.osgi.querydsl.support.QuerydslSupport;
 import org.everit.osgi.resource.resolver.ResourceIdResolver;
+import org.osgi.service.log.LogService;
 
 import com.mysema.query.sql.SQLQuery;
 import com.mysema.query.sql.dml.SQLDeleteClause;
@@ -41,7 +42,8 @@ import com.mysema.query.types.ConstructorExpression;
         configurationFactory = true, policy = ConfigurationPolicy.REQUIRE)
 @Properties({
         @Property(name = AuthenticationSimpleConstants.PROP_QUERYDSL_SUPPORT),
-        @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR)
+        @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR),
+        @Property(name = AuthenticationSimpleConstants.PROP_LOG_SERVICE)
 })
 @Service
 public class AuthenticationSimpleComponent implements SimpleSubjectManager, Authenticator, ResourceIdResolver {
@@ -52,14 +54,26 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
     @Reference(bind = "setCredentialEncryptor")
     private CredentialEncryptor credentialEncryptor;
 
+    @Reference(bind = "setLogService")
+    private LogService logService;
+
     @Override
     public String authenticate(final String principal, final String credential) {
+        if ((principal == null) || (credential == null)) {
+            return null;
+        }
         String encryptedCredential = readEncryptedCredential(principal);
         if (encryptedCredential == null) {
             return null;
         }
         boolean match = credentialEncryptor.matchCredentials(credential, encryptedCredential);
-        return (match) ? principal : null;
+        if (match) {
+            logService.log(LogService.LOG_INFO, "Successfully authenticated '" + principal + "'");
+            return principal;
+        } else {
+            logService.log(LogService.LOG_INFO, "Failed to authenticate '" + principal + "'");
+            return null;
+        }
     }
 
     @Override
@@ -127,6 +141,10 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
 
     public void setCredentialEncryptor(final CredentialEncryptor credentialEncryptor) {
         this.credentialEncryptor = credentialEncryptor;
+    }
+
+    public void setLogService(final LogService logService) {
+        this.logService = logService;
     }
 
     public void setQuerydslSupport(final QuerydslSupport querydslSupport) {
