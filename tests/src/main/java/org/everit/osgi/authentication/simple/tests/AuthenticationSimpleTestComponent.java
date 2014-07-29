@@ -181,8 +181,9 @@ public class AuthenticationSimpleTestComponent {
         String plainCredential = "credential";
         SimpleSubject simpleSubject = createWithResource(principal, plainCredential);
 
-        Assert.assertEquals(simpleSubject.getResourceId(), resourceIdResolver.getResourceId(principal).longValue());
-        Assert.assertNull(resourceIdResolver.getResourceId(principal + principal));
+        Assert.assertEquals(simpleSubject.getResourceId(),
+                resourceIdResolver.getResourceId(principal).get().longValue());
+        Assert.assertFalse(resourceIdResolver.getResourceId(principal + principal).isPresent());
     }
 
 }

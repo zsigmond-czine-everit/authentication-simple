@@ -111,13 +111,14 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
     }
 
     @Override
-    public Long getResourceId(final String principal) {
+    public Optional<Long> getResourceId(final String principal) {
         return querydslSupport.execute((connection, configuration) -> {
             QSimpleSubject qSimpleSubject = QSimpleSubject.simpleSubject;
-            return new SQLQuery(connection, configuration)
+            Long resourceId = new SQLQuery(connection, configuration)
                     .from(qSimpleSubject)
                     .where(qSimpleSubject.principal.eq(principal))
                     .singleResult(qSimpleSubject.resourceId);
+            return Optional.ofNullable(resourceId);
         });
     }
 
