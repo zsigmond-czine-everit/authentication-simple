@@ -119,17 +119,17 @@ public class AuthenticationSimpleTestComponent {
         String plainCredential = "credential";
         createWithResource(principal, plainCredential);
 
-        Assert.assertEquals(principal, authenticator.authenticate(principal, plainCredential));
-        Assert.assertNull(authenticator.authenticate(principal, plainCredential + plainCredential));
-        Assert.assertNull(authenticator.authenticate(principal, null));
+        Assert.assertEquals(principal, authenticator.authenticate(principal, plainCredential).get());
+        Assert.assertFalse(authenticator.authenticate(principal, plainCredential + plainCredential).isPresent());
+        Assert.assertFalse(authenticator.authenticate(principal, null).isPresent());
 
         String newPlainCredential = "credential_new";
         simpleSubjectManager.updateCredential(principal, newPlainCredential);
 
-        Assert.assertEquals(principal, authenticator.authenticate(principal, newPlainCredential));
-        Assert.assertNull(authenticator.authenticate(principal, plainCredential));
+        Assert.assertEquals(principal, authenticator.authenticate(principal, newPlainCredential).get());
+        Assert.assertFalse(authenticator.authenticate(principal, plainCredential).isPresent());
 
-        Assert.assertNull(authenticator.authenticate(principal + principal, newPlainCredential));
+        Assert.assertFalse(authenticator.authenticate(principal + principal, newPlainCredential).isPresent());
 
     }
 

@@ -16,6 +16,8 @@
  */
 package org.everit.osgi.authentication.simple.internal;
 
+import java.util.Optional;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.ConfigurationPolicy;
 import org.apache.felix.scr.annotations.Properties;
@@ -28,6 +30,7 @@ import org.everit.osgi.authentication.simple.SimpleSubjectManager;
 import org.everit.osgi.authentication.simple.schema.qdsl.QSimpleSubject;
 import org.everit.osgi.authenticator.Authenticator;
 import org.everit.osgi.credential.encryptor.CredentialEncryptor;
+import org.everit.osgi.credential.encryptor.CredentialMatcher;
 import org.everit.osgi.querydsl.support.QuerydslSupport;
 import org.everit.osgi.resource.resolver.ResourceIdResolver;
 import org.osgi.service.log.LogService;
@@ -43,6 +46,7 @@ import com.mysema.query.types.ConstructorExpression;
 @Properties({
         @Property(name = AuthenticationSimpleConstants.PROP_QUERYDSL_SUPPORT),
         @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR),
+        @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_MATCHER),
         @Property(name = AuthenticationSimpleConstants.PROP_LOG_SERVICE)
 })
 @Service
@@ -54,32 +58,35 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
     @Reference(bind = "setCredentialEncryptor")
     private CredentialEncryptor credentialEncryptor;
 
+    @Reference(bind = "setCredentialMatcher")
+    private CredentialMatcher credentialMatcher;
+
     @Reference(bind = "setLogService")
     private LogService logService;
 
     @Override
-    public String authenticate(final String principal, final String credential) {
+    public Optional<String> authenticate(final String principal, final String credential) {
         if ((principal == null) || (credential == null)) {
-            return null;
+            return Optional.empty();
         }
         String encryptedCredential = readEncryptedCredential(principal);
         if (encryptedCredential == null) {
-            return null;
+            return Optional.empty();
         }
-        boolean match = credentialEncryptor.matchCredentials(credential, encryptedCredential);
+        boolean match = credentialMatcher.match(credential, encryptedCredential);
         if (match) {
             logService.log(LogService.LOG_INFO, "Successfully authenticated '" + principal + "'");
-            return principal;
+            return Optional.of(principal);
         } else {
             logService.log(LogService.LOG_INFO, "Failed to authenticate '" + principal + "'");
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
     public SimpleSubject create(final long resourceId, final String principal, final String plainCredential) {
         String encryptedCredential = (plainCredential == null) ? null
-                : credentialEncryptor.encryptCredential(plainCredential);
+                : credentialEncryptor.encrypt(plainCredential);
 
         return querydslSupport.execute((connection, configuration) -> {
             QSimpleSubject qSimpleSubject = QSimpleSubject.simpleSubject;
@@ -143,6 +150,10 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
         this.credentialEncryptor = credentialEncryptor;
     }
 
+    public void setCredentialMatcher(final CredentialMatcher credentialMatcher) {
+        this.credentialMatcher = credentialMatcher;
+    }
+
     public void setLogService(final LogService logService) {
         this.logService = logService;
     }
@@ -154,7 +165,7 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
     @Override
     public boolean updateCredential(final String principal, final String newPlainCredential) {
         String encryptedCredential = (newPlainCredential == null) ? null
-                : credentialEncryptor.encryptCredential(newPlainCredential);
+                : credentialEncryptor.encrypt(newPlainCredential);
 
         long updateCount = querydslSupport.execute((connection, configuration) -> {
             QSimpleSubject qSimpleSubject = QSimpleSubject.simpleSubject;
@@ -174,12 +185,12 @@ public class AuthenticationSimpleComponent implements SimpleSubjectManager, Auth
 
         String originalEncryptedCredential = readEncryptedCredential(principal);
         if ((originalEncryptedCredential != null)
-                && !credentialEncryptor.matchCredentials(originalPlainCredential, originalEncryptedCredential)) {
+                && !credentialMatcher.match(originalPlainCredential, originalEncryptedCredential)) {
             return false;
         }
 
         String encryptedNewCredential = (newPlainCredential == null) ? null
-                : credentialEncryptor.encryptCredential(newPlainCredential);
+                : credentialEncryptor.encrypt(newPlainCredential);
 
         long updateCount = querydslSupport.execute((connection, configuration) -> {
             return new SQLUpdateClause(connection, configuration, qSimpleSubject)
