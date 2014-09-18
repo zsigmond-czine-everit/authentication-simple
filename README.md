@@ -7,7 +7,9 @@ A simple principal and credential based authentication with management service.
 The module contains one Declarative Services component. The component can be 
 instantiated multiple times via Configuration Admin. The component uses the 
 [credential-encryptor-api][2] and registers three OSGi services: 
- - **SimpleSubjectManager**: Managing the simple subject table, see below.
+ - **SimpleSubjectManager**: Managing the simple subject table (see below): 
+ creating and reading simple subjects, updating their principals and 
+ credentials. 
  - **Authenticator**: Authenticates the simple subjects based on their 
  principal and credential. The interface is provided by the 
  [authenticator-api][3].
