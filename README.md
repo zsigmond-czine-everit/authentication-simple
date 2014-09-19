@@ -39,6 +39,7 @@ integrates the possibility of [authentication][6] and [authorization][7].
  
 #Concept
 Full authentication concept is available on blog post [Everit Authentication][1].
+Implemented components based on this concept are listed [here][8].
 
 [1]: http://everitorg.wordpress.com/2014/07/31/everit-authentication/
 [2]: https://github.com/everit-org/credential-encryptor-api
@@ -47,3 +48,4 @@ Full authentication concept is available on blog post [Everit Authentication][1]
 [5]: https://github.com/everit-org/resource-ri
 [6]: https://github.com/everit-org/authentication-context-api
 [7]: https://github.com/everit-org/authorization-api
+[8]: http://everitorg.wordpress.com/2014/07/31/everit-authentication-implemented-and-released-2/
