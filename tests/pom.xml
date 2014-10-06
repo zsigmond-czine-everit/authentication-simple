@@ -84,7 +84,7 @@
       <plugin>
         <groupId>org.everit.osgi.dev</groupId>
         <artifactId>eosgi-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>integration-test</id>
@@ -95,10 +95,11 @@
           </execution>
         </executions>
         <configuration>
-<!--					<jacoco>
-						<includes>org.everit.osgi.authentication.simple.*</includes>
-						<excludes>org.everit.osgi.authentication.simple.schema.*</excludes>
-					</jacoco> -->
+          <jacoco>
+            <includes>org.everit.osgi.authentication.simple.*</includes>
+            <excludes>org.everit.osgi.authentication.simple.schema.*</excludes>
+            <output>$${ if (System.getenv("EOSGI_STOP_AFTER_TESTS").equals("true")) "file"; else "tcpserver"; }</output>
+          </jacoco>
           <environments>
             <environment>
               <id>equinoxtest</id>
@@ -320,7 +321,7 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.177</version>
+      <version>1.4.181</version>
     </dependency>
 
     <dependency>
