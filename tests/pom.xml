@@ -23,14 +23,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.everit.config</groupId>
-    <artifactId>org.everit.config.oss</artifactId>
-    <version>5.0.1</version>
+    <groupId>org.everit.osgi</groupId>
+    <artifactId>org.everit.osgi.authentication.simple.parent</artifactId>
+    <version>1.0.0</version>
   </parent>
 
   <groupId>org.everit.osgi</groupId>
   <artifactId>org.everit.osgi.authentication.simple.tests</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 
   <packaging>bundle</packaging>
 
@@ -188,12 +188,11 @@
       <version>1.7.7</version>
     </dependency>
 
-		<!-- Jetty with Http Service -->
-
+	<!-- Jetty with Http Service -->
     <dependency>
       <groupId>org.eclipse.jetty.osgi</groupId>
       <artifactId>jetty-osgi-boot</artifactId>
-      <version>9.1.0.v20131115</version>
+      <version>9.2.3.v20140905</version>
       <exclusions>
         <exclusion>
           <artifactId>jetty-annotations</artifactId>
@@ -212,7 +211,7 @@
     <dependency>
       <groupId>org.eclipse.jetty.osgi</groupId>
       <artifactId>jetty-httpservice</artifactId>
-      <version>9.1.0.v20131115</version>
+      <version>9.2.3.v20140905</version>
       <exclusions>
         <exclusion>
           <artifactId>org.eclipse.osgi</artifactId>
