@@ -33,6 +33,7 @@ import org.everit.osgi.credential.encryptor.CredentialEncryptor;
 import org.everit.osgi.credential.encryptor.CredentialMatcher;
 import org.everit.osgi.querydsl.support.QuerydslSupport;
 import org.everit.osgi.resource.resolver.ResourceIdResolver;
+import org.osgi.framework.Constants;
 import org.osgi.service.log.LogService;
 
 import com.mysema.query.sql.SQLQuery;
@@ -44,6 +45,8 @@ import com.mysema.query.types.ConstructorExpression;
 @Component(name = AuthenticationSimpleConstants.SERVICE_FACTORYPID_AUTHENTICATION_SIMPLE, metatype = true,
         configurationFactory = true, policy = ConfigurationPolicy.REQUIRE)
 @Properties({
+        @Property(name = Constants.SERVICE_DESCRIPTION,
+                value = AuthenticationSimpleConstants.DEFAULT_SERVICE_DESCRIPTION),
         @Property(name = AuthenticationSimpleConstants.PROP_QUERYDSL_SUPPORT),
         @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR),
         @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_MATCHER),

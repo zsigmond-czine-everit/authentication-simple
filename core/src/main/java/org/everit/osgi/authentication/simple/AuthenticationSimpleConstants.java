@@ -21,6 +21,8 @@ package org.everit.osgi.authentication.simple;
  */
 public final class AuthenticationSimpleConstants {
 
+    public static final String DEFAULT_SERVICE_DESCRIPTION =
+            "Default Authentication Simple Component";
     /**
      * The service factory PID of the Authentication Simple component.
      */
