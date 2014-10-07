@@ -45,7 +45,7 @@ import com.mysema.query.types.ConstructorExpression;
 @Component(name = AuthenticationSimpleConstants.SERVICE_FACTORYPID_AUTHENTICATION_SIMPLE, metatype = true,
         configurationFactory = true, policy = ConfigurationPolicy.REQUIRE)
 @Properties({
-        @Property(name = Constants.SERVICE_DESCRIPTION,
+        @Property(name = Constants.SERVICE_DESCRIPTION, propertyPrivate = false,
                 value = AuthenticationSimpleConstants.DEFAULT_SERVICE_DESCRIPTION),
         @Property(name = AuthenticationSimpleConstants.PROP_QUERYDSL_SUPPORT),
         @Property(name = AuthenticationSimpleConstants.PROP_CREDENTIAL_ENCRYPTOR),
