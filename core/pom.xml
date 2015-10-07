@@ -96,11 +96,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.everit.transaction</groupId>
-      <artifactId>org.everit.transaction.propagator.api</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.everit.persistence</groupId>
       <artifactId>org.everit.persistence.querydsl.support.api</artifactId>
       <version>1.0.0</version>
@@ -129,11 +124,6 @@
       <groupId>org.everit.authentication</groupId>
       <artifactId>org.everit.authentication.simple.schema.qdsl</artifactId>
       <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.12</version>
     </dependency>
   </dependencies>
 

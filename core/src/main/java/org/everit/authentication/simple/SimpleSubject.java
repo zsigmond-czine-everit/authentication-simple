@@ -15,6 +15,8 @@
  */
 package org.everit.authentication.simple;
 
+import javax.annotation.Generated;
+
 /**
  * A principal and credential based subject assigned to a resource. This can be a base of a user in
  * a system.
@@ -24,17 +26,17 @@ public class SimpleSubject {
   /**
    * The unique principal of the simple subject. For e.g. user name, email address.
    */
-  private final String principal;
+  public final String principal;
 
   /**
    * The resource ID assigned to the simple subject.
    */
-  private final long resourceId;
+  public final long resourceId;
 
   /**
    * The ID of the simple subject.
    */
-  private final long simpleSubjectId;
+  public final long simpleSubjectId;
 
   /**
    * Constructor.
@@ -54,6 +56,7 @@ public class SimpleSubject {
   }
 
   @Override
+  @Generated("Eclipse")
   public boolean equals(final Object obj) {
     if (this == obj) {
       return true;
@@ -81,19 +84,8 @@ public class SimpleSubject {
     return true;
   }
 
-  public String getPrincipal() {
-    return principal;
-  }
-
-  public long getResourceId() {
-    return resourceId;
-  }
-
-  public long getSimpleSubjectId() {
-    return simpleSubjectId;
-  }
-
   @Override
+  @Generated("Eclipse")
   public int hashCode() {
     final int prime = 31;
     int result = 1;
@@ -104,10 +96,10 @@ public class SimpleSubject {
   }
 
   @Override
+  @Generated("Eclipse")
   public String toString() {
-    return "SimpleSubject [simpleSubjectId=" + simpleSubjectId + ", principal=" + principal
-        + ", resourceId="
-        + resourceId + "]";
+    return "SimpleSubject [principal=" + principal + ", resourceId=" + resourceId
+        + ", simpleSubjectId=" + simpleSubjectId + "]";
   }
 
 }

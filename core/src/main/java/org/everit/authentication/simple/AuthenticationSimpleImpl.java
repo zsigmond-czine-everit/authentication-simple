@@ -24,8 +24,6 @@ import org.everit.credential.encryptor.CredentialEncryptor;
 import org.everit.credential.encryptor.CredentialMatcher;
 import org.everit.persistence.querydsl.support.QuerydslSupport;
 import org.everit.resource.resolver.ResourceIdResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.mysema.query.sql.SQLQuery;
 import com.mysema.query.sql.dml.SQLDeleteClause;
@@ -39,8 +37,6 @@ import com.mysema.query.types.ConstructorExpression;
  */
 public class AuthenticationSimpleImpl
     implements SimpleSubjectManager, Authenticator, ResourceIdResolver {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationSimpleImpl.class);
 
   private CredentialEncryptor credentialEncryptor;
 
@@ -73,21 +69,22 @@ public class AuthenticationSimpleImpl
 
   @Override
   public Optional<String> authenticate(final String principal, final String credential) {
+
     if ((principal == null) || (credential == null)) {
       return Optional.empty();
     }
+
     String encryptedCredential = readEncryptedCredential(principal);
     if (encryptedCredential == null) {
       return Optional.empty();
     }
+
     boolean match = credentialMatcher.match(credential, encryptedCredential);
     if (match) {
-      LOGGER.info("Successfully authenticated '" + principal + "'");
       return Optional.of(principal);
-    } else {
-      LOGGER.info("Failed to authenticate '" + principal + "'");
-      return Optional.empty();
     }
+
+    return Optional.empty();
   }
 
   @Override
