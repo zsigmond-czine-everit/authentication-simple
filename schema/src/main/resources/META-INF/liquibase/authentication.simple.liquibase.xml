@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    This file is part of Everit - Authentication Simple Schema QDSL.
+    Copyright (C) 2011 Everit Kft. (http://www.everit.biz)
 
-    Everit - Authentication Simple Schema QDSL is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-    Everit - Authentication Simple Schema QDSL is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
+            http://www.apache.org/licenses/LICENSE-2.0
 
-    You should have received a copy of the GNU Lesser General Public License
-    along with Everit - Authentication Simple Schema QDSL.  If not, see <http://www.gnu.org/licenses/>.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 -->
-<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS" logicalFilePath="org.everit.osgi.authentication.simple" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+<databaseChangeLog objectQuotingStrategy="QUOTE_ALL_OBJECTS" logicalFilePath="org.everit.authentication.simple"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<include file="eosgi:org.everit.osgi.resource.ri" />
+  <include file="eosgi:org.everit.resource.ri" />
 
-	<changeSet id="1.0.0" author="everit">
+  <changeSet id="1.0.0" author="everit">
 
-		<createTable tableName="authc_simple_subject">
-			<column name="simple_subject_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="principal" type="java.sql.Types.VARCHAR(256)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="encrypted_credential" type="java.sql.Types.VARCHAR(256)">
-				<constraints nullable="true" />
-			</column>
-			<column name="resource_id" type="bigint">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
+    <createTable tableName="authc_simple_subject">
+      <column name="simple_subject_id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="principal" type="java.sql.Types.VARCHAR(256)">
+        <constraints unique="true" nullable="false" />
+      </column>
+      <column name="encrypted_credential" type="java.sql.Types.VARCHAR(256)">
+        <constraints nullable="true" />
+      </column>
+      <column name="resource_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
 
-		<addForeignKeyConstraint constraintName="fk_simple_subject_resource"
-			baseTableName="authc_simple_subject" baseColumnNames="resource_id" referencedTableName="res_resource"
-			referencedColumnNames="resource_id" />
+    <addForeignKeyConstraint constraintName="fk_simple_subject_resource"
+      baseTableName="authc_simple_subject" baseColumnNames="resource_id" referencedTableName="res_resource"
+      referencedColumnNames="resource_id" />
 
-	</changeSet>
+  </changeSet>
 
 </databaseChangeLog>
 

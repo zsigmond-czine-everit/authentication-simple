@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2011 Everit Kft. (http://www.everit.biz)
+    Copyright (C) 2011 Everit Kft. (http://www.everit.org)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,12 +16,11 @@
     limitations under the License.
 
 -->
-<lqmg xmlns="http://everit.org/lqmg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  defaultPackage="org.everit.authentication.simple.schema.qdsl">
-  <namingRules>
-    <classNameRule>
-      <entity>authc_simple_subject</entity>
-      <class>SimpleSubject</class>
-    </classNameRule>
-  </namingRules>
-</lqmg>
+<FindBugsFilter>
+  <Match>
+    <Package name="~org\.everit\.authentication\.simple\.schema\.qdsl.*" />
+  </Match>
+  <Match>
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+</FindBugsFilter>

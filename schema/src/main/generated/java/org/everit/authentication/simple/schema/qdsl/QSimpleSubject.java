@@ -1,20 +1,19 @@
-/**
- * This file is part of Everit - Authentication Simple Schema QDSL.
+/*
+ * Copyright (C) 2011 Everit Kft. (http://www.everit.biz)
  *
- * Everit - Authentication Simple Schema QDSL is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Everit - Authentication Simple Schema QDSL is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Everit - Authentication Simple Schema QDSL.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package org.everit.osgi.authentication.simple.schema.qdsl;
+package org.everit.authentication.simple.schema.qdsl;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 
@@ -35,7 +34,7 @@ import com.mysema.query.sql.ColumnMetadata;
 @Generated("com.mysema.query.sql.codegen.MetaDataSerializer")
 public class QSimpleSubject extends com.mysema.query.sql.RelationalPathBase<QSimpleSubject> {
 
-    private static final long serialVersionUID = -1415729839;
+    private static final long serialVersionUID = -719673281;
 
     public static final QSimpleSubject simpleSubject = new QSimpleSubject("authc_simple_subject");
 
@@ -47,7 +46,7 @@ public class QSimpleSubject extends com.mysema.query.sql.RelationalPathBase<QSim
 
     public class ForeignKeys {
 
-        public final com.mysema.query.sql.ForeignKey<org.everit.osgi.resource.ri.schema.qdsl.QResource> simpleSubjectResourceFk = createForeignKey(resourceId, "resource_id");
+        public final com.mysema.query.sql.ForeignKey<org.everit.resource.ri.schema.qdsl.QResource> simpleSubjectResourceFk = createForeignKey(resourceId, "resource_id");
 
     }
 
@@ -64,7 +63,7 @@ public class QSimpleSubject extends com.mysema.query.sql.RelationalPathBase<QSim
     public final ForeignKeys fk = new ForeignKeys();
 
     public QSimpleSubject(String variable) {
-        super(QSimpleSubject.class, forVariable(variable), "org.everit.osgi.authentication.simple", "authc_simple_subject");
+        super(QSimpleSubject.class, forVariable(variable), "org.everit.authentication.simple", "authc_simple_subject");
         addMetadata();
     }
 
@@ -74,12 +73,12 @@ public class QSimpleSubject extends com.mysema.query.sql.RelationalPathBase<QSim
     }
 
     public QSimpleSubject(Path<? extends QSimpleSubject> path) {
-        super(path.getType(), path.getMetadata(), "org.everit.osgi.authentication.simple", "authc_simple_subject");
+        super(path.getType(), path.getMetadata(), "org.everit.authentication.simple", "authc_simple_subject");
         addMetadata();
     }
 
     public QSimpleSubject(PathMetadata<?> metadata) {
-        super(QSimpleSubject.class, metadata, "org.everit.osgi.authentication.simple", "authc_simple_subject");
+        super(QSimpleSubject.class, metadata, "org.everit.authentication.simple", "authc_simple_subject");
         addMetadata();
     }
 
