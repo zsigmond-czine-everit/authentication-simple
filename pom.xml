@@ -35,7 +35,7 @@
   <packaging>pom</packaging>
 
   <name>Everit - Authentication Simple Parent</name>
-  <description>The parent project of the Authentication Simple component.</description>
+  <description>The parent project of the Authentication Simple.</description>
 
   <properties>
     <maven.site.skip>true</maven.site.skip>
