@@ -3,19 +3,6 @@ authentication-simple
 
 A simple principal and credential based authentication with management service.
 
-#Component
-The module contains one Declarative Services component. The component can be 
-instantiated multiple times via Configuration Admin. The component uses the 
-[credential-encryptor-api][2] and registers three OSGi services: 
- - **SimpleSubjectManager**: Managing the simple subject table (see below): 
- creating and reading simple subjects, updating their principals and 
- credentials. 
- - **Authenticator**: Authenticates the simple subjects based on their 
- principal and credential. The interface is provided by the 
- [authenticator-api][3].
- - **ResourceIdResolver**: Maps the principal of the simple subject to a 
- Resource ID. The interface is provided by the [resource-resolver-api][4].
-
 #Database structure
 ##Simple subject table
  - **simple_subject_id**: The primary key of the simple subject.
@@ -46,8 +33,6 @@ Implemented components based on this concept are listed [here][8].
 
 [1]: http://everitorg.wordpress.com/2014/07/31/everit-authentication/
 [2]: https://github.com/everit-org/credential-encryptor-api
-[3]: https://github.com/everit-org/authenticator-api
-[4]: https://github.com/everit-org/resource-resolver-api
 [5]: https://github.com/everit-org/resource-ri
 [6]: https://github.com/everit-org/authentication-context-api
 [7]: https://github.com/everit-org/authorization-api
